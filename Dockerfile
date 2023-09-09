@@ -48,6 +48,7 @@ COPY --from=BUILD_IMAGE /app ./
 RUN rm dist/conf.yml
 
 # Provide a container initalisation script before the application is run
+RUN chmod 755 ./entrypoint.sh
 ENTRYPOINT [ "./entrypoint.sh" ]
 
 # Finally, run start command to serve up the built application
