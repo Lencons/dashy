@@ -27,6 +27,35 @@ const makeErrorMessage = (data) => `❌ Service Unavailable: ${data.hostname || 
 const makeErrorMessage2 = (data) => '❌ Service Error - '
   + `${data.status} - ${data.statusText}`;
 
+const CA = "\
+-----BEGIN CERTIFICATE-----\
+MIIErzCCAxegAwIBAgIBATANBgkqhkiG9w0BAQsFADBCMSAwHgYDVQQKDBdMRU5O\
+T1hDT05TVUxUSU5HLkNPTS5BVTEeMBwGA1UEAwwVQ2VydGlmaWNhdGUgQXV0aG9y\
+aXR5MB4XDTIxMDcxOTEwMjYwMFoXDTQxMDcxOTEwMjYwMFowQjEgMB4GA1UECgwX\
+TEVOTk9YQ09OU1VMVElORy5DT00uQVUxHjAcBgNVBAMMFUNlcnRpZmljYXRlIEF1\
+dGhvcml0eTCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBALZ5ZJci3Dcf\
+7JV4ln1RPX1XB4Jz8EwxvaDFUVMOuEEeLD5FCU2tpBK99B3cQnt6ZEn5VkMaa+zK\
+P2YnIxp7jmRaDudiq7oX5LBXNhypw84wfJTjk2W6bBrdyJx9GCs8Ii2cGX/IDIh5\
+1ARp1N0VRaxIE/ooJXuB9zl+8I6DXB6wLLQokD0mCXAMb8ALVFqEL6hc+3EOPdIC\
+jbouGHZlK/pyCThKe16VfBRiysNwaqJaBLUJtR5PBLVWM4aa6J0AO2aJt5hLqcGu\
+zX69iqIuRt9pR2u6M6VRwBj50XVaFwxYf5cg8qlsGIUIb24kfzy2Oj+84fLuBmH1\
+2E2KX86HCpfqgc8qzitn39spuz6BBeldDwglGnORd+rOHYrU0IhcGjU1zgN4jAnk\
+fVCjJ3hD7jC5BbLgY1kGD51l4WvoTlyNgxabLRq6JguIYs/J1NIuYf1X6zI21Q3V\
+wWXNFpziR5MM0j8/E1hVsr0HcPV4plCjCKeXcP9locnQ0pmMtDnH1wIDAQABo4Gv\
+MIGsMB8GA1UdIwQYMBaAFDEKkwYTZEDHyMK6jv9Bl/B/UT5RMA8GA1UdEwEB/wQF\
+MAMBAf8wDgYDVR0PAQH/BAQDAgHGMB0GA1UdDgQWBBQxCpMGE2RAx8jCuo7/QZfw\
+f1E+UTBJBggrBgEFBQcBAQQ9MDswOQYIKwYBBQUHMAGGLWh0dHA6Ly9pcGEtY2Eu\
+bGVubm94Y29uc3VsdGluZy5jb20uYXUvY2Evb2NzcDANBgkqhkiG9w0BAQsFAAOC\
+AYEAeQ9HRxbA0Usen46utV1bmEEAcHrlg0x4R8sPIfHY9X0PMGd8l9ukobc7Wdj/\
+60rMmbnNp0NePfnDNJFCkOoCfhPk4XFsAdHnxMGUuxbxrFvA2prdhv58BTcJh8xG\
++IWgOv9svw7VZUrihRIosIoG/cTyxFlGuxCAThqkNdV7mOwNbkNFWO2zt37lwWVD\
+leoW5zNPZfJDIvPANZsukygNPbOwCjA3zvOi9OUDB0g3ZHNgVuksN3W7YF/SjqnB\
+dfwy0M/X53DVF+5gEv1P+6SEqFWqqNtRfrRwiUKUD2kb3cwyoawOCaRgBdeWWgcQ\
+Zrql6+sxG71ZrLAP8c2mCcw/+dw+gJ/qZEuMYXONdmraeYCVB8YLKlZ5HjWig45m\
+f3Gi/6qZYxX/d/1BX1cmZFG0CychEhoP/3UY4WKX8AhIq/gCE/IgPdQZmcoug6ks\
+YhoekjRiO5ZNG4e2jyF6L6407PmErlwJ5ubFl/SODkKR/mvEIZ6j9fN2v70rvc/x\
+AyTb\
+-----END CERTIFICATE-----"
 /* Kicks of a HTTP request, then formats and renders results */
 const makeRequest = (url, options, render) => {
   const {
@@ -37,6 +66,7 @@ const makeRequest = (url, options, render) => {
   const requestMaker = axios.create({
     httpsAgent: new https.Agent({
       rejectUnauthorized: !enableInsecure,
+      ca: CA,
     }),
   });
   requestMaker.request({
