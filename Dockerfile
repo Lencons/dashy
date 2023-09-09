@@ -38,6 +38,10 @@ WORKDIR ${DIRECTORY}
 # Update tzdata for setting timezone
 RUN apk add --no-cache tzdata
 
+# Install tooling to use local Certificates
+RUN apk --no-cache add ca-certificates \
+    && rm -rf /var/cache/apk/*
+    
 # Copy built application from build phase
 COPY --from=BUILD_IMAGE /app ./
 # Ensure only one version of conf.yml exists
